@@ -50,7 +50,7 @@ public class BooksController {
                     .getContent();
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
             return bookRepository
-                    .findByType(bookType, PageRequest.of(pageNumber-1, 1))
+                    .findByType(bookType, PageRequest.of(pageNumber-1, 10))
                     .getContent();
         else if (bookTitle.isEmpty() && bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
