@@ -30,4 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findByTitleContainingAndBibNumIn(String bookTitle, List<String> bibNums, Pageable pageRequest);
 
     Page<Book> findByTitleContainingAndTypeAndBibNumIn(String bookTitle, String bookType, List<String> bibNums, Pageable pageRequest);
+
+    @Query("select count(*) from Book")
+    String getTotalBookCount();
 }

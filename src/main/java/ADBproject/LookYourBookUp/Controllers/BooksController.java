@@ -81,4 +81,10 @@ public class BooksController {
                     .getContent();
         }
     }
+
+    @GetMapping("/getTotalPageCount")
+    Long getTotalNumberOfPages() {
+        Long countOfBooks = Long.parseLong(bookRepository.getTotalBookCount());
+        return (countOfBooks % 10 == 0) ? countOfBooks/10 : countOfBooks/10 + 1;
+    }
 }
