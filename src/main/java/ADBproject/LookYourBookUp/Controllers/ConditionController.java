@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/conditions")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ConditionController {
 
     @Autowired

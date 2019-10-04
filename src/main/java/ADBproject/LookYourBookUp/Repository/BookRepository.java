@@ -1,6 +1,9 @@
 package ADBproject.LookYourBookUp.Repository;
 
 import ADBproject.LookYourBookUp.Models.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,24 +12,22 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> findAll();
-
-    List<Book> findByTitleContaining(String bookTitle);
-
     Book findByBibNum(String bibNum);
 
-    @Query("SELECT type FROM Book group by type order by count(*) desc")
-    List<String> getPopularTypes();
+    @Query(value = "SELECT type FROM Book group by type order by count(*) desc")
+    Page<String> getPopularTypes(PageRequest pageRequest);
 
-    List<Book> findByType(String bookType);
+    Page<Book> findByTitleContaining(String bookTitle, Pageable pageRequest);
 
-    List<Book> findByBibNumIn(List<String> bibNumbers);
+    Page<Book> findByType(String bookType, Pageable pageRequest);
 
-    List<Book> findByTitleContainingAndType(String bookTitle, String bookType);
+    Page<Book> findByBibNumIn(List<String> bibNumbers, Pageable pageRequest);
 
-    List<Book> findByTypeAndBibNumIn (String bookType, List<String> bibNums);
+    Page<Book> findByTitleContainingAndType(String bookTitle, String bookType, Pageable pageRequest);
 
-    List<Book> findByTitleContainingAndBibNumIn(String bookTitle, List<String> bibNums);
+    Page<Book> findByTypeAndBibNumIn (String bookType, List<String> bibNums, Pageable pageRequest);
 
-    List<Book> findByTitleContainingAndTypeAndBibNumIn(String bookTitle, String bookType, List<String> bibNums);
+    Page<Book> findByTitleContainingAndBibNumIn(String bookTitle, List<String> bibNums, Pageable pageRequest);
+
+    Page<Book> findByTitleContainingAndTypeAndBibNumIn(String bookTitle, String bookType, List<String> bibNums, Pageable pageRequest);
 }
