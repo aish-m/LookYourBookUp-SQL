@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-import java.sql.ResultSet;
 
 import java.util.List;
+
+// Books controller to perform all operations related to books like getting books, getting books by their ID and
+// filtering books based on various attributes
 
 @RestController
 @RequestMapping("/api/books")

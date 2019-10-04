@@ -2,7 +2,6 @@ package ADBproject.LookYourBookUp.Controllers;
 
 import ADBproject.LookYourBookUp.Exceptions.ForeignKeyConstraintException;
 import ADBproject.LookYourBookUp.Exceptions.NoRatingsException;
-import ADBproject.LookYourBookUp.Models.BookCondition;
 import ADBproject.LookYourBookUp.Models.Review;
 import ADBproject.LookYourBookUp.Repository.ReviewRepository;
 import org.hibernate.exception.ConstraintViolationException;
@@ -11,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+// This controller has methods for operations on book reviews. This includes getting all reviews for a book and
+// inserting reviews for a particular book
 
 @RestController
 @RequestMapping("/api/reviews")

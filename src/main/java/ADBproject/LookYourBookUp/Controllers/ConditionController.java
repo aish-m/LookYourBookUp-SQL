@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+// This controller deals with all the operations related to book condition like getting conditions of all copies of a
+// book, inserting condition of a book and running reports to know which books are in which condition
+
 @RestController
 @RequestMapping("/api/conditions")
 @CrossOrigin(origins = "http://localhost:4200")

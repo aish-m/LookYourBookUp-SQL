@@ -1,5 +1,8 @@
 package ADBproject.LookYourBookUp.Exceptions;
 
+// The following code has been taken from Spring Boot JPA documentation since it is a standard exception for REST APIs
+// https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -28,6 +31,3 @@ public class ResourceNotFoundException extends RuntimeException {
         return fieldValue;
     }
 }
-
-// The following code has been taken from Spring Boot JPA documentation since it is a standard exception for REST APIs
-// https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
