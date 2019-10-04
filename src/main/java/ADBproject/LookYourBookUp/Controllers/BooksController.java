@@ -26,13 +26,13 @@ public class BooksController {
     private ConditionRepository conditionRepository;
 
     @GetMapping("/{pageNumber}")
-    Page<Book> getAllBooks(@PathVariable(value = "pageNumber") int pageNumber) {
-        return bookRepository.findAll(PageRequest.of(pageNumber-1, 10));
+    List<Book> getAllBooks(@PathVariable(value = "pageNumber") int pageNumber) {
+        return bookRepository.findAll(PageRequest.of(pageNumber-1, 10)).getContent();
     }
 
     @GetMapping("/getTypes")
-    Page<String> getPopularBookTypes() {
-        return bookRepository.getPopularTypes(PageRequest.of(0, 10));
+    List<String> getPopularBookTypes() {
+        return bookRepository.getPopularTypes(PageRequest.of(0, 10)).getContent();
     }
 
     @GetMapping("/getDetails/{bibNum}")
@@ -43,28 +43,42 @@ public class BooksController {
     }
 
     @GetMapping("/filterBooks")
-    Page<Book> filterBooks(@RequestParam String bookTitle, @RequestParam String bookType, @RequestParam int bookCondition, @RequestParam int pageNumber) {
+    List<Book> filterBooks(@RequestParam String bookTitle, @RequestParam String bookType, @RequestParam int bookCondition, @RequestParam int pageNumber) {
         if(!bookTitle.isEmpty() && bookType.isEmpty() & bookCondition == 0)
-            return bookRepository.findByTitleContaining(bookTitle, PageRequest.of(pageNumber-1, 10));
+            return bookRepository
+                    .findByTitleContaining(bookTitle, PageRequest.of(pageNumber-1, 10))
+                    .getContent();
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
-            return bookRepository.findByType(bookType, PageRequest.of(pageNumber-1, 1));
+            return bookRepository
+                    .findByType(bookType, PageRequest.of(pageNumber-1, 1))
+                    .getContent();
         else if (bookTitle.isEmpty() && bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
-            return bookRepository.findByBibNumIn(bibNumbers, PageRequest.of(pageNumber-1, 10));
+            return bookRepository
+                    .findByBibNumIn(bibNumbers, PageRequest.of(pageNumber-1, 10))
+                    .getContent();
         }
         else if (!bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
-            return bookRepository.findByTitleContainingAndType(bookTitle, bookType, PageRequest.of(pageNumber-1, 10));
+            return bookRepository
+                    .findByTitleContainingAndType(bookTitle, bookType, PageRequest.of(pageNumber-1, 10))
+                    .getContent();
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
-            return bookRepository.findByTypeAndBibNumIn(bookType, bibNumbers, PageRequest.of(pageNumber-1, 10));
+            return bookRepository
+                    .findByTypeAndBibNumIn(bookType, bibNumbers, PageRequest.of(pageNumber-1, 10))
+                    .getContent();
         }
         else if (!bookTitle.isEmpty() && bookType.isEmpty()) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
-            return bookRepository.findByTitleContainingAndBibNumIn(bookTitle, bibNumbers, PageRequest.of(pageNumber-1, 10));
+            return bookRepository
+                    .findByTitleContainingAndBibNumIn(bookTitle, bibNumbers, PageRequest.of(pageNumber-1, 10))
+                    .getContent();
         }
         else  {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
-            return bookRepository.findByTitleContainingAndTypeAndBibNumIn(bookTitle, bookType, bibNumbers, PageRequest.of(pageNumber-1, 10));
+            return bookRepository
+                    .findByTitleContainingAndTypeAndBibNumIn(bookTitle, bookType, bibNumbers, PageRequest.of(pageNumber-1, 10))
+                    .getContent();
         }
     }
 }
