@@ -87,4 +87,9 @@ public class BooksController {
         Long countOfBooks = Long.parseLong(bookRepository.getTotalBookCount());
         return (countOfBooks % 10 == 0) ? countOfBooks/10 : countOfBooks/10 + 1;
     }
+
+    @GetMapping("/getTotalBookCount")
+    Long getTotalNumberOfBooks() {
+        return Long.parseLong(bookRepository.getTotalBookCount());
+    }
 }
