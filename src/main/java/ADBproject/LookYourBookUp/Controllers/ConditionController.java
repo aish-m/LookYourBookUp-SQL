@@ -1,13 +1,17 @@
 package ADBproject.LookYourBookUp.Controllers;
 
 import ADBproject.LookYourBookUp.Exceptions.ForeignKeyConstraintException;
+import ADBproject.LookYourBookUp.Models.Book;
 import ADBproject.LookYourBookUp.Models.BookCondition;
 import ADBproject.LookYourBookUp.Models.ConditionReport;
 import ADBproject.LookYourBookUp.Repository.ConditionRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
+import java.util.ArrayList;
 import java.util.List;
 
 // This controller deals with all the operations related to book condition like getting conditions of all copies of a
@@ -23,12 +27,18 @@ public class ConditionController {
 
     @RequestMapping("/get/{bibNum}")
     List<BookCondition> getConditionsByBibNum(@PathVariable(value = "bibNum") String bibNum) {
-        return conditionRepository.findByBibNum(bibNum);
+        List<BookCondition> queryResult = conditionRepository.findByBibNum(bibNum);
+        List<BookCondition> result = new ArrayList<>();
+        queryResult.forEach(condition -> {
+            if(condition.getUserId() != null) result.add(condition);
+        });
+        return result;
     }
 
     @PostMapping("/insert")
     Boolean inputBookCondition(@Valid @RequestBody BookCondition bookCondition) {
         try {
+            bookCondition.setBibNum(conditionRepository.findByBarcode(bookCondition.getBarcode()).getBibNum());
             BookCondition inserted = conditionRepository.save(bookCondition);
             return inserted.getBarcode().equals(bookCondition.getBarcode())
                     && inserted.getBibNum().equals(bookCondition.getBibNum())

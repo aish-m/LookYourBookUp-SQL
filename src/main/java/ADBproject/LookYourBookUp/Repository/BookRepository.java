@@ -33,4 +33,18 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select count(*) from Book")
     String getTotalBookCount();
+
+    String countByTitleContaining(String bookTitle);
+
+    String countByType(String bookType);
+
+    String countByBibNumIn(List<String> bibNumbers);
+
+    String countByTitleContainingAndType(String bookTitle, String bookType);
+
+    String countByTypeAndBibNumIn(String bookType, List<String> bibNums);
+
+    String countByTitleContainingAndBibNumIn(String bookTitle, List<String> bibNums);
+
+    String countByTitleContainingAndTypeAndBibNumIn(String bookTitle, String bookType, List<String> bibNums);
 }

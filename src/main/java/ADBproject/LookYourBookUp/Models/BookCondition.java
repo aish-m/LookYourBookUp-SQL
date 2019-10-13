@@ -8,7 +8,7 @@ public class BookCondition {
     @Id
     private String barcode;
     private String bibNum;
-    private int bookCondition;
+    private Integer bookCondition;
     private String userId;
 
     public BookCondition () {

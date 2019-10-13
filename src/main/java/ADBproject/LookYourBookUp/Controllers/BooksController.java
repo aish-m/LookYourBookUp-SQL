@@ -82,6 +82,33 @@ public class BooksController {
         }
     }
 
+    @GetMapping("/filterBooksCount")
+    Long getFilteredCount(@RequestParam String bookTitle, @RequestParam String bookType, @RequestParam int bookCondition) {
+        if(!bookTitle.isEmpty() && bookType.isEmpty() & bookCondition == 0)
+            return Long.parseLong(bookRepository.countByTitleContaining(bookTitle));
+        else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
+            return Long.parseLong(bookRepository.countByType(bookType));
+        else if (bookTitle.isEmpty() && bookType.isEmpty() & bookCondition != 0) {
+            List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
+            return Long.parseLong(bookRepository.countByBibNumIn(bibNumbers));
+        }
+        else if (!bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
+            return Long.parseLong(bookRepository.countByTitleContainingAndType(bookTitle, bookType));
+        else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition != 0) {
+            List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
+            return Long.parseLong(bookRepository.countByTypeAndBibNumIn(bookType, bibNumbers));
+        }
+        else if (!bookTitle.isEmpty() && bookType.isEmpty()) {
+            List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
+            return Long.parseLong(bookRepository.countByTitleContainingAndBibNumIn(bookTitle, bibNumbers));
+        }
+        else  {
+            List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
+            return Long.parseLong(bookRepository.countByTitleContainingAndTypeAndBibNumIn(bookTitle, bookType, bibNumbers));
+        }
+    }
+
+
     @GetMapping("/getTotalPageCount")
     Long getTotalNumberOfPages() {
         Long countOfBooks = Long.parseLong(bookRepository.getTotalBookCount());
