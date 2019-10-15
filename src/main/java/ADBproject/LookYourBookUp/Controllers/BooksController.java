@@ -44,7 +44,9 @@ public class BooksController {
 
     @GetMapping("/filterBooks")
     List<Book> filterBooks(@RequestParam String bookTitle, @RequestParam String bookType, @RequestParam int bookCondition, @RequestParam int pageNumber) {
-        if(!bookTitle.isEmpty() && bookType.isEmpty() & bookCondition == 0)
+        if(bookTitle.isEmpty() && bookType.isEmpty() & bookCondition == 0)
+            return getAllBooks(pageNumber);
+        else if(!bookTitle.isEmpty() && bookType.isEmpty() & bookCondition == 0)
             return bookRepository
                     .findByTitleContaining(bookTitle, PageRequest.of(pageNumber-1, 10))
                     .getContent();
