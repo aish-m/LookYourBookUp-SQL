@@ -52,7 +52,7 @@ public class BooksController {
                     .getContent();
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
             return bookRepository
-                    .findByType(bookType, PageRequest.of(pageNumber-1, 10))
+                    .findByTypeDescription(bookType, PageRequest.of(pageNumber-1, 10))
                     .getContent();
         else if (bookTitle.isEmpty() && bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
@@ -62,12 +62,12 @@ public class BooksController {
         }
         else if (!bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
             return bookRepository
-                    .findByTitleContainingAndType(bookTitle, bookType, PageRequest.of(pageNumber-1, 10))
+                    .findByTitleContainingAndTypeDescription(bookTitle, bookType, PageRequest.of(pageNumber-1, 10))
                     .getContent();
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
             return bookRepository
-                    .findByTypeAndBibNumIn(bookType, bibNumbers, PageRequest.of(pageNumber-1, 10))
+                    .findByTypeDescriptionAndBibNumIn(bookType, bibNumbers, PageRequest.of(pageNumber-1, 10))
                     .getContent();
         }
         else if (!bookTitle.isEmpty() && bookType.isEmpty()) {
@@ -79,7 +79,7 @@ public class BooksController {
         else  {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
             return bookRepository
-                    .findByTitleContainingAndTypeAndBibNumIn(bookTitle, bookType, bibNumbers, PageRequest.of(pageNumber-1, 10))
+                    .findByTitleContainingAndTypeDescriptionAndBibNumIn(bookTitle, bookType, bibNumbers, PageRequest.of(pageNumber-1, 10))
                     .getContent();
         }
     }
@@ -89,16 +89,16 @@ public class BooksController {
         if(!bookTitle.isEmpty() && bookType.isEmpty() & bookCondition == 0)
             return Long.parseLong(bookRepository.countByTitleContaining(bookTitle));
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
-            return Long.parseLong(bookRepository.countByType(bookType));
+            return Long.parseLong(bookRepository.countByTypeDescription(bookType));
         else if (bookTitle.isEmpty() && bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
             return Long.parseLong(bookRepository.countByBibNumIn(bibNumbers));
         }
         else if (!bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition == 0)
-            return Long.parseLong(bookRepository.countByTitleContainingAndType(bookTitle, bookType));
+            return Long.parseLong(bookRepository.countByTitleContainingAndTypeDescription(bookTitle, bookType));
         else if (bookTitle.isEmpty() && !bookType.isEmpty() & bookCondition != 0) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
-            return Long.parseLong(bookRepository.countByTypeAndBibNumIn(bookType, bibNumbers));
+            return Long.parseLong(bookRepository.countByTypeDescriptionAndBibNumIn(bookType, bibNumbers));
         }
         else if (!bookTitle.isEmpty() && bookType.isEmpty()) {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
@@ -106,7 +106,7 @@ public class BooksController {
         }
         else  {
             List<String> bibNumbers = conditionRepository.findBooksWithCondition(bookCondition);
-            return Long.parseLong(bookRepository.countByTitleContainingAndTypeAndBibNumIn(bookTitle, bookType, bibNumbers));
+            return Long.parseLong(bookRepository.countByTitleContainingAndTypeDescriptionAndBibNumIn(bookTitle, bookType, bibNumbers));
         }
     }
 

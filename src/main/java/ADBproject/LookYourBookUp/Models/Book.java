@@ -10,7 +10,7 @@ public class Book {
     private String bibNum;
     private String title;
     private String subjects;
-    private String type;
+    private String typeDescription;
 
     public Book () {
 
@@ -20,7 +20,7 @@ public class Book {
         this.bibNum = bib_num;
         this.title = title;
         this.subjects = subjects;
-        this.type = type;
+        this.typeDescription = type;
     }
 
     public String getBib_num() {
@@ -48,10 +48,10 @@ public class Book {
     }
 
     public String getType() {
-        return type;
+        return typeDescription;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.typeDescription = type;
     }
 }
